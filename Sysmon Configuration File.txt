@@ -1,0 +1,57 @@
+<!--
+    Sysmon configuration file for Active Directory Lab
+    Based on SwiftOnSecurity config with custom modifications
+-->
+<Sysmon schemaversion="4.70">
+    <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
+    <EventFiltering>
+        <!-- Process Creation -->
+        <RuleGroup name="Process Creation" groupRelation="or">
+            <ProcessCreate onmatch="include">
+                <Rule name="ProcessCreate_CredentialDumping_1">
+                    <Image condition="contains">mimikatz</Image>
+                </Rule>
+                <Rule name="ProcessCreate_PowerShell">
+                    <Image condition="end with">powershell.exe</Image>
+                </Rule>
+                <Rule name="ProcessCreate_Net">
+                    <Image condition="end with">net.exe</Image>
+                    <CommandLine condition="contains">user</CommandLine>
+                </Rule>
+            </ProcessCreate>
+        </RuleGroup>
+
+        <!-- Network Connection -->
+        <RuleGroup name="Network Connection" groupRelation="or">
+            <NetworkConnect onmatch="include">
+                <Rule name="NetworkConnect_Suspicious_1">
+                    <DestinationPort>445,135,139,3389</DestinationPort>
+                </Rule>
+                <Rule name="NetworkConnect_Suspicious_2">
+                    <Image condition="end with">powershell.exe</Image>
+                </Rule>
+            </NetworkConnect>
+        </RuleGroup>
+
+        <!-- File Creation -->
+        <RuleGroup name="File Creation" groupRelation="or">
+            <FileCreate onmatch="include">
+                <Rule name="FileCreate_Suspicious_1">
+                    <TargetFilename condition="contains">\Windows\System32\</TargetFilename>
+                </Rule>
+                <Rule name="FileCreate_Scripts">
+                    <TargetFilename condition="end with">.ps1</TargetFilename>
+                </Rule>
+            </FileCreate>
+        </RuleGroup>
+
+        <!-- Registry Events -->
+        <RuleGroup name="Registry Events" groupRelation="or">
+            <RegistryEvent onmatch="include">
+                <Rule name="RegistryEvent_AutoRun">
+                    <TargetObject condition="contains">SOFTWARE\Microsoft\Windows\CurrentVersion\Run</TargetObject>
+                </Rule>
+            </RegistryEvent>
+        </RuleGroup>
+    </EventFiltering>
+</Sysmon>
