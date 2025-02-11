@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant KL as Kali Linux
+    participant DC as Domain Controller
+    participant WC as Windows Client
+    participant SP as Splunk Server
+
+    KL->>DC: Password Spray Attack
+    Note over DC: Failed Login Events
+    DC->>SP: Forward Security Logs
+    SP->>SP: Alert Generation
+
+    KL->>WC: Kerberoasting Attack
+    Note over WC: SPN Request
+    WC->>DC: TGS Request
+    DC->>SP: Forward Kerberos Events
+    SP->>SP: Detection Rules
+
+    KL->>DC: DCSync Attack
+    Note over DC: Replication Events
+    DC->>SP: Forward Directory Events
+    SP->>SP: Alert on Suspicious Replication
