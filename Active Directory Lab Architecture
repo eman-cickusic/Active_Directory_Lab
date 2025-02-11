@@ -1,0 +1,29 @@
+flowchart TD
+    subgraph Lab Infrastructure
+        DC[Domain Controller<br>Windows Server<br>192.168.1.10] 
+        WC[Windows 10 Client<br>192.168.1.20]
+        SP[Splunk Server<br>Ubuntu<br>192.168.1.30]
+        KL[Kali Linux<br>Attack Machine<br>192.168.1.40]
+        
+        subgraph Monitoring
+            SY1[Sysmon]
+            SF1[Splunk Forwarder]
+            SY2[Sysmon]
+            SF2[Splunk Forwarder]
+        end
+        
+        DC --> SP
+        WC --> SP
+        KL --> WC
+        KL --> DC
+        
+        SY1 --> SF1
+        SY2 --> SF2
+        SF1 --> SP
+        SF2 --> SP
+    end
+
+    subgraph Data Flow
+        direction LR
+        L1[Logs] --> F1[Forwarding] --> I1[Indexing] --> A1[Analysis]
+    end
