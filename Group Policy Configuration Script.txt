@@ -1,0 +1,51 @@
+# Group Policy Configuration Script for Active Directory Lab
+
+# Import required module
+Import-Module GroupPolicy
+
+# Create new GPO for Security Settings
+$GPOName = "Lab Security Settings"
+New-GPO -Name $GPOName
+
+# Configure Account Policies
+Set-GPRegistryValue -Name $GPOName -Key "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" -ValueName "MaximumPasswordAge" -Type DWord -Value 30
+Set-GPRegistryValue -Name $GPOName -Key "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" -ValueName "MinimumPasswordLength" -Type DWord -Value 12
+
+# Configure Audit Policies
+$auditPolicies = @{
+    "Account Logon" = "Success,Failure"
+    "Account Management" = "Success,Failure"
+    "Directory Service Access" = "Success,Failure"
+    "Logon Events" = "Success,Failure"
+    "Object Access" = "Success,Failure"
+    "Policy Change" = "Success,Failure"
+    "Privilege Use" = "Success,Failure"
+    "Process Tracking" = "Success,Failure"
+    "System Events" = "Success,Failure"
+}
+
+foreach ($policy in $auditPolicies.Keys) {
+    Set-GPAuditPolicy -Name $GPOName -Category $policy -Setting $auditPolicies[$policy]
+}
+
+# Configure Security Options
+$securityOptions = @{
+    "Network security: LAN Manager authentication level" = "Send NTLMv2 response only. Refuse LM & NTLM"
+    "Network security: Minimum session security for NTLM SSP based clients" = "Require NTLMv2 session security,Require 128-bit encryption"
+    "Domain member: Digitally encrypt or sign secure channel data (always)" = "Enabled"
+    "Domain member: Require strong (Windows 2000 or later) session key" = "Enabled"
+}
+
+foreach ($option in $securityOptions.Keys) {
+    Set-GPRegistryValue -Name $GPOName -Key "HKLM\System\CurrentControlSet\Control\Lsa" -ValueName $option -Value $securityOptions[$option]
+}
+
+# Link GPO to domain
+$domainDN = (Get-ADDomain).DistinguishedName
+New-GPLink -Name $GPOName -Target $domainDN -Enforced Yes
+
+# Configure WMI Filtering for Windows Clients
+$wmfFilter = @"
+SELECT * FROM Win32_OperatingSystem WHERE ProductType = 1
+"@
+New-GPWmiFilter -Name "Windows Clients" -Expression $wmfFilter
