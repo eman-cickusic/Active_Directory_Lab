@@ -1,0 +1,53 @@
+# Splunk Alert Configurations for Active Directory Security Monitoring
+
+alerts:
+  brute_force_detection:
+    search: >
+      index=windows_events EventCode=4625 
+      | stats count as failed_attempts by Account_Name, Source_Network_Address, Logon_Type 
+      | where failed_attempts > 5
+    alert_type: number of events
+    threshold: 5
+    time_range: 5m
+    severity: high
+    actions:
+      - email
+      - webhook
+
+  suspicious_powershell:
+    search: >
+      index=windows_events EventCode=4104 
+      | regex ScriptBlock="(?i)(Invoke-Mimikatz|Get-PassHashes|Invoke-TokenManipulation)"
+    alert_type: custom
+    threshold: 1
+    time_range: 1m
+    severity: critical
+    actions:
+      - email
+      - webhook
+
+  dcsync_detection:
+    search: >
+      index=windows_events EventCode=4662 
+      | search Properties="*Replication-Get-Changes-All*" 
+      | stats count by Account_Name
+    alert_type: number of events
+    threshold: 1
+    time_range: 5m
+    severity: critical
+    actions:
+      - email
+      - webhook
+
+  lateral_movement:
+    search: >
+      index=windows_events (EventCode=4624 OR EventCode=4625) Logon_Type=3 
+      | stats count by Source_Network_Address, Account_Name, Workstation_Name 
+      | where count > 3
+    alert_type: number of events
+    threshold: 3
+    time_range: 15m
+    severity: high
+    actions:
+      - email
+      - webhook
