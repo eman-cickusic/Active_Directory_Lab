@@ -1,7 +1,7 @@
 # Group Policy Configuration Script for Active Directory Lab
 
 # Import required module
-Import-Module GroupPolicy
+Import-Module GroupPolicy 
 
 # Create new GPO for Security Settings
 $GPOName = "Lab Security Settings"
