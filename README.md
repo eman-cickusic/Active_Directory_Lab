@@ -1,6 +1,6 @@
 # Active Directory Security Lab Environment
 
-## 🔍 Project Overview
+## 🔍 Project Overview 
 A comprehensive security lab environment demonstrating Active Directory configuration, monitoring, and attack simulation. This project showcases security monitoring using Splunk, Windows event collection with Sysmon, and penetration testing capabilities through Kali Linux.
 
 ## 🎯 Learning Objectives
