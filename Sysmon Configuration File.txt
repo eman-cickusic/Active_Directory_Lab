@@ -5,7 +5,7 @@
 <Sysmon schemaversion="4.70">
     <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
     <EventFiltering>
-        <!-- Process Creation -->
+        <!-- Process Creation --> 
         <RuleGroup name="Process Creation" groupRelation="or">
             <ProcessCreate onmatch="include">
                 <Rule name="ProcessCreate_CredentialDumping_1">
