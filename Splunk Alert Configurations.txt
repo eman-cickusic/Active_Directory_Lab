@@ -14,7 +14,7 @@ alerts:
       - email
       - webhook
 
-  suspicious_powershell:
+  suspicious_powershell: 
     search: >
       index=windows_events EventCode=4104 
       | regex ScriptBlock="(?i)(Invoke-Mimikatz|Get-PassHashes|Invoke-TokenManipulation)"
