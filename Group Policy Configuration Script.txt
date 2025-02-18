@@ -1,6 +1,6 @@
 # Group Policy Configuration Script for Active Directory Lab
 
-# Import required module
+# Import required module 
 Import-Module GroupPolicy 
 
 # Create new GPO for Security Settings
