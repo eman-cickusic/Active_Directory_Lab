@@ -1,4 +1,4 @@
-<!--
+<!-- 
     Sysmon configuration file for Active Directory Lab
     Based on SwiftOnSecurity config with custom modifications
 -->
