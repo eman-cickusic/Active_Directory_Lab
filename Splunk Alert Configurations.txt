@@ -1,7 +1,7 @@
 # Splunk Alert Configurations for Active Directory Security Monitoring
 
 alerts:
-  brute_force_detection:
+  brute_force_detection: 
     search: >
       index=windows_events EventCode=4625 
       | stats count as failed_attempts by Account_Name, Source_Network_Address, Logon_Type 
