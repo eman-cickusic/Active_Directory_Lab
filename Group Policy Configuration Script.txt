@@ -3,7 +3,7 @@
 # Import required module 
 Import-Module GroupPolicy 
 
-# Create new GPO for Security Settings
+# Create new GPO for Security Settings 
 $GPOName = "Lab Security Settings"
 New-GPO -Name $GPOName
 
