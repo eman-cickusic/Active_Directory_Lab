@@ -5,7 +5,7 @@ Import-Module GroupPolicy
 
 # Create new GPO for Security Settings 
 $GPOName = "Lab Security Settings"
-New-GPO -Name $GPOName
+New-GPO -Name $GPOName 
 
 # Configure Account Policies
 Set-GPRegistryValue -Name $GPOName -Key "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" -ValueName "MaximumPasswordAge" -Type DWord -Value 30
