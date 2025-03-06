@@ -9,7 +9,7 @@ A comprehensive security lab environment demonstrating Active Directory configur
 - Security Information and Event Management (SIEM) implementation
 - Attack detection and analysis
 - Windows domain security hardening
-
+ 
 ## 🛠️ Technologies Used
 - Windows Server 2019/2022 (Domain Controller)
 - Windows 10 (Target Machine)
