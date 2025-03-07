@@ -20,7 +20,7 @@ A comprehensive security lab environment demonstrating Active Directory configur
 - VirtualBox
 - Active Directory Domain Services
 
-## 💻 System Requirements
+## 💻 System Requirements 
 - Minimum 16GB RAM
 - 250GB available disk space
 - Virtualization-capable CPU
