@@ -56,7 +56,7 @@ A comprehensive security lab environment demonstrating Active Directory configur
    - CPU: 2 cores
    - Storage: 50GB
    - Network: NAT Network
-   - Static IP: 192.168.1.10
+   - Static IP: 192.168.1.10 
 
 2. Install Active Directory Domain Services:
 ```powershell
